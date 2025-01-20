@@ -1,0 +1,31 @@
+# Ignorer les dépendances Node.js
+/node_modules/
+
+# Ignorer les fichiers uploadés par les utilisateurs
+/Public/files/
+/Public/uploads/
+/files/
+
+# Ignorer les fichiers de logs
+/logs/
+
+# Ignorer les variables d'environnement sensibles
+.env
+
+# Ignorer les fichiers Docker non essentiels
+.dockerignore
+Dockerfile
+
+# Ignorer les fichiers système spécifiques à l'OS
+.DS_Store
+Thumbs.db
+
+# Ignorer les fichiers Git spécifiques
+.git/
+
+# Ignorer les fichiers de sauvegarde d'éditeurs
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log

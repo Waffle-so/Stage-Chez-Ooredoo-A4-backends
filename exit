@@ -1,0 +1,85 @@
+[33mcommit e8e54eef3e17a899273af2c5ff725144aed9e2f2[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Mon Jan 20 15:30:43 2025 +0100
+
+    Mise à jour du .gitignore pour exclure les fichiers volumineux
+
+ .dockerignore   |  5 [31m-----[m
+ .gitignore      |  8 [32m++++[m[31m----[m
+ Controller/.env |  2 [31m--[m
+ Dockerfile      | 20 [31m--------------------[m
+ 4 files changed, 4 insertions(+), 31 deletions(-)
+
+[33mcommit 8b41d2f2963596bcb4ed92377b0c52a35782779e[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Mon Jan 20 14:19:53 2025 +0100
+
+    Premier commit
+
+ .gitignore | 6 [32m+++[m[31m---[m
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+[33mcommit 7f360444003018b7878705856aa4349514c142e4[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Mon Jan 20 14:04:47 2025 +0100
+
+    Premier commit
+
+ .gitignore | 6 [32m+++[m[31m---[m
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+[33mcommit ed1380eba006e6f883e42042ec6fa0893a87be7f[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 20:15:18 2025 +0100
+
+    Premier commit
+
+ .gitignore | 4 [32m++[m[31m--[m
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+[33mcommit c833867b60f65e4d35e1279234889a75c1c4f9c3[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 20:06:48 2025 +0100
+
+    commit 2
+
+ .gitignore | 3 [32m++[m[31m-[m
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+[33mcommit 8627c2b85a17c8f999278fb57a755faaaabe68d0[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 19:47:05 2025 +0100
+
+    commit 1
+
+ .gitignore |  5 [32m+++[m[31m--[m
+ Dockerfile | 20 [32m++++++++++++++++++++[m
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+
+[33mcommit 29ed46a022e8ef90ed56aac877ff635ab35a330c[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 17:42:47 2025 +0100
+
+    first commit
+
+ .env       | 33 [31m---------------------------------[m
+ Dockerfile | 20 [31m--------------------[m
+ 2 files changed, 53 deletions(-)
+
+[33mcommit b5cdbde253addd96e75354b9da6376f6238dd51c[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 17:34:10 2025 +0100
+
+    push du backend
+
+ .gitignore | 1 [32m+[m
+ 1 file changed, 1 insertion(+)
+
+[33mcommit 54c42de5ea01753cb41dc33da828f571c940875e[m
+Author: Waffle-so <mehdi.belkacem.dz@viacesi.fr>
+Date:   Sun Jan 19 13:54:52 2025 +0100
+
+    Ajout des règles dans le .gitignore
+
+ .gitignore | 24 [32m+++++++++++++++++++++++[m[31m-[m
+ 1 file changed, 23 insertions(+), 1 deletion(-)
