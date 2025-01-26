@@ -17,6 +17,11 @@ const cron = require('node-cron');
  * @returns {Object} - Informations de l'utilisateur ou une erreur si l'utilisateur n'existe pas
  */
 async function getUserById(userId) {
+  if (!userId) {
+    throw new Error('ID utilisateur invalide');
+  }
+
+  
   try {
     const user = await utilisateur.findOne({ where: { id: userId } });
     if (!user) {
@@ -1070,6 +1075,31 @@ async function get_vid(id_user) {
 
 
 
+// ... existing code ...
+const updateVideo = async (id,userId, nomVideo, description, fileName) => {
+  try {
+
+    // Exemple de mise à jour avec un ORM fictif
+    const video = await Publications.findOne({ where: { id } });
+    if (!video) {
+      return { success: false, message: 'Vidéo non trouvée.' };
+    }
+
+    video.Nom_publication = nomVideo;
+    video.Description = description;
+    video.miniature = fileName;
+    // Assurez-vous que le chemin du fichier est correct
+
+    await video.save();
+
+    return { success: true };
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de la vidéo :', error);
+    return { success: false, message: 'Erreur lors de la mise à jour de la vidéo.' };
+  }
+};
+
+
 
 
 async function get_playlist(userid){ 
@@ -1527,6 +1557,7 @@ async function find_all_employee(Secteur) {
         Nbr_add_file: user.Nbr_add_file,
         Nbr_add_video: user.Nbr_add_video,
         add_file_on: user.add_file_on,
+        lastLogin: user.lastLogin,
 
       }));
 
@@ -1806,6 +1837,7 @@ async function find_all_users() {
         Nbr_add_file: user.Nbr_add_file,
         add_file_on:user.add_file_on,
         Nbr_add_video:user.Nbr_add_video,
+        lastLogin: user.lastLogin,
       }));
 
 
@@ -1946,7 +1978,7 @@ async function change_finalisation_obj(userId,id_objectif,etat) {
   module.exports = { getUserById,getAllUsers_socket,
     register,login,change_mdp ,logout,authenticate,profile,connected_users,forgotPassword,verifyResetCode,
     add_files,get_file,get_file_per_id,delete_file,change_params,Confirm_email,
-    add_video_or_playlist,get_vid,get_all_vid,get_video_by_id,delete_vid,find_all_user,add_comment,get_comments,delete_comment,
+    add_video_or_playlist,get_vid,updateVideo,get_all_vid,get_video_by_id,delete_vid,find_all_user,add_comment,get_comments,delete_comment,
     add_playlist,get_playlist,get_playlist_by_id,addVideoToPlaylist,getPlaylistWithVideos,delete_playlist,delete_vid_in_playlist,
     find_all_employee,change_role,addProject,deleteProject,find_all_projects,findMembersByProjectId,addmembersinprojet,removeMemberFromProject,find_all_projects_associed,
     find_all_users,add_objectif,find_all_Objectifs,change_finalisation_obj,all_obj,delete_objectif}

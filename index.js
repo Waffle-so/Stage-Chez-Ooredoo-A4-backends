@@ -6,7 +6,7 @@ const bodyParser =require('body-parser');
 const {getUserById,getAllUsers_socket,
   register,login,change_mdp,logout ,authenticate,profile,connected_users,forgotPassword,verifyResetCode,
   add_files,get_file,get_file_per_id,delete_file,change_params,Confirm_email,
-  add_video_or_playlist,get_vid,get_all_vid,get_video_by_id,delete_vid,find_all_user,add_comment,get_comments,delete_comment,
+  add_video_or_playlist,get_vid,updateVideo,get_all_vid,get_video_by_id,delete_vid,find_all_user,add_comment,get_comments,delete_comment,
   add_playlist,get_playlist,get_playlist_by_id,addVideoToPlaylist,getPlaylistWithVideos,delete_playlist,delete_vid_in_playlist,
   find_all_employee,change_role,addProject,deleteProject,find_all_projects,findMembersByProjectId,addmembersinprojet,removeMemberFromProject,find_all_projects_associed,
   find_all_users,add_objectif,find_all_Objectifs,change_finalisation_obj,all_obj,delete_objectif} = require('./Controller/Controller')
@@ -555,21 +555,36 @@ io.on('connection', (socket) => {
 // Gérer l'envoi de messages
 socket.on('/api/send_message', async (data) => {
   const { senderId, recipientId, content,timestamp } = data;
+  
+  if (!senderId || !recipientId) {
+    console.error('ID utilisateur invalide:', { senderId, recipientId });
+    return;
+  }
+
   console.log(`Message de ${senderId} à ${recipientId}: ${content} à ${timestamp}`);
+
+    // Supposons que vous ayez une fonction pour obtenir les détails de l'utilisateur
+    const senderDetails = await getUserById(senderId);
+
 
   // Récupérer l'utilisateur qui envoie le message et celui qui doit le recevoir
   const sender = connectedUsers[senderId];
   const recipient = connectedUsers[recipientId];
 
   // Vérifier si les deux utilisateurs appartiennent au même secteur
-  if (sender && recipient && sender.secteur === recipient.secteur) {
+  if (sender && recipient && sender.secteur === recipient.secteur && senderDetails) {
     console.log(`Message de ${senderId} à ${recipientId} dans le secteur ${sender.secteur}: ${content}  à ${timestamp}`);
+    const { nom, prenom ,photoprofil} = senderDetails;
+    console.log(`Message reçu de ${nom} ${prenom}: ${content}`);
 
     // Envoyer le message au destinataire seulement s'ils sont dans le même secteur
     io.to(recipientId).emit('/api/receive_message', {
       senderId: senderId,
       recipientId: recipientId,
       content: content,
+      nom,
+      prenom,
+      photoprofil,
       timestamp: timestamp,
     });
 
@@ -811,8 +826,8 @@ const fileFilter = (req, file, cb) => {
 
 
 const fileFilter_img = (req, file, cb) => {
-  const allowedTypes_img = ['image/png', 'image/jpeg', 'image/jpg', 'image/jfif'];
-  if (allowedTypes_img.includes(file.mimetype)) {
+  const allowedTypes_img = ['image/png', 'image/jpeg', 'image/jpg', 'image/jfif','image/webp'];
+  if (allowedTypes_img.includes(file.mimetype)) { 
     cb(null, true);
   } else {
     cb(new Error('Type de fichier non autorisé pour l\'image.'), false);
@@ -872,7 +887,7 @@ const upload2= multer({
 })
 
 
-const TAILLE_IMAGE_MAX = 10 * 1024 * 1024; //10 Megabit max
+const TAILLE_IMAGE_MAX = 50 * 1024 * 1024; //10 Megabit max
 
 const upload_img= multer({
   storage,
@@ -1604,6 +1619,42 @@ app.post('/api/delete_vid_in_playlist',authenticateToken,async(req,res)=>{
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
+
+
+
+app.post('/api/update_video', authenticateToken, upload_img.single('file'), async (req, res) => {
+  try {
+    const { nomVideo, description,id } = req.body;
+    const file = req.file;
+
+    if (!nomVideo || !description || !file || !id ) {
+      return res.status(400).json({ success: false, message: 'Tous les champs sont requis.' });
+    }
+
+     // Stockez uniquement le nom du fichier
+     const fileName = file.filename;
+     console.log(fileName);
+
+    const result = await updateVideo(id,req.userId, nomVideo, description, fileName);
+
+    if (result.success) {
+      logger.info(`Requête reçue pour /update_video' la video {${id}} a été mise à jour par l'utilisateur {${req.userId}}`);
+      res.status(200).json({ success: true, message: 'Vidéo mise à jour avec succès.' });
+    } else {
+      logger.warn(`Requête /update_video  échoué pour l'utilisateur {${req.userId}}`);
+      res.status(500).json({ success: false, message: 'Erreur lors de la mise à jour de la vidéo.' });
+    }
+  } catch (error) {
+    logger.error('Erreur lors de la mise à jour de la vidéo :', error);
+    console.error('Erreur lors de la mise à jour de la vidéo :', error);
+    res.status(500).json({ success: false, message: 'Erreur interne du serveur.' });
+  }
+});
+
+
+
+
 
 
 
